@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "645573363922",
+    "project_id": "pulmopal-aa8df",
+    "storage_bucket": "pulmopal-aa8df.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:645573363922:android:7d51bfac1327c1feba850b",
+        "android_client_info": {
+          "package_name": "com.example.pulmopal"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAGj312KDq6KvVJx6_4Ri5tbZZWtd-x7DQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
