@@ -3,9 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pulmopal/config/router/get_x.dart';
 import 'package:pulmopal/pages/blog/blog_page.dart';
+import 'package:pulmopal/pages/blog/blog_page_new.dart';
 import 'package:pulmopal/pages/coin/main.dart';
 import 'package:pulmopal/pages/home/home_page.dart';
-import 'package:pulmopal/pages/home/home_page_maps.dart';
 import 'package:pulmopal/pages/remainder/remainder_page.dart';
 import 'package:pulmopal/pages/settings/account_page.dart';
 
@@ -30,7 +30,7 @@ Widget bottomBar(BuildContext context) {
         controller.selectedPage.value = i;
         if (i == 0) {
           Navigator.push(context,
-              MaterialPageRoute(builder: ((context) => const BlogPage())));
+              MaterialPageRoute(builder: ((context) => const BlogPageNew())));
         } else if (i == 1) {
           Navigator.push(context,
               MaterialPageRoute(builder: ((context) => const RemainderPage())));
