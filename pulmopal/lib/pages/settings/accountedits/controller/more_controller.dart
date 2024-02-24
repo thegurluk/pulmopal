@@ -29,4 +29,9 @@ class MoreController {
   Future<void> writeArticle(ArticleModel model) async {
     await moreRepository.writeArticle(model);
   }
+
+  Future<void> updateProfile(UserModel model) async {
+    await moreRepository.updateProfile(model);
+    ref.refresh(MoreRepositoryProvider).getUser();
+  }
 }

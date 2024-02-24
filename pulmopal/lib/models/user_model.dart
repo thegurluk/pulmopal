@@ -4,6 +4,7 @@ class UserModel {
   String? uid;
   String name;
   String surname;
+  String? description;
   String email;
   String username;
   String birthDay;
@@ -12,6 +13,7 @@ class UserModel {
     this.uid,
     required this.name,
     required this.surname,
+    this.description,
     required this.email,
     required this.username,
     required this.birthDay,
@@ -22,6 +24,7 @@ class UserModel {
     String? uid,
     String? name,
     String? surname,
+    String? description,
     String? email,
     String? username,
     String? birthDay,
@@ -31,6 +34,7 @@ class UserModel {
       uid: uid ?? this.uid,
       name: name ?? this.name,
       surname: surname ?? this.surname,
+      description: description ?? this.description,
       email: email ?? this.email,
       username: username ?? this.username,
       birthDay: birthDay ?? this.birthDay,
@@ -46,6 +50,9 @@ class UserModel {
     }
     result.addAll({'name': name});
     result.addAll({'surname': surname});
+    if (description != null) {
+      result.addAll({'description': description});
+    }
     result.addAll({'email': email});
     result.addAll({'username': username});
     result.addAll({'birthDay': birthDay});
@@ -61,6 +68,7 @@ class UserModel {
       uid: map['uid'],
       name: map['name'] ?? '',
       surname: map['surname'] ?? '',
+      description: map['description'],
       email: map['email'] ?? '',
       username: map['username'] ?? '',
       birthDay: map['birthDay'] ?? '',
@@ -75,7 +83,7 @@ class UserModel {
 
   @override
   String toString() {
-    return 'UserModel(uid: $uid, name: $name, surname: $surname, email: $email, username: $username, birthDay: $birthDay, profilePhoto: $profilePhoto)';
+    return 'UserModel(uid: $uid, name: $name, surname: $surname, description: $description, email: $email, username: $username, birthDay: $birthDay, profilePhoto: $profilePhoto)';
   }
 
   @override
@@ -86,6 +94,7 @@ class UserModel {
         other.uid == uid &&
         other.name == name &&
         other.surname == surname &&
+        other.description == description &&
         other.email == email &&
         other.username == username &&
         other.birthDay == birthDay &&
@@ -97,6 +106,7 @@ class UserModel {
     return uid.hashCode ^
         name.hashCode ^
         surname.hashCode ^
+        description.hashCode ^
         email.hashCode ^
         username.hashCode ^
         birthDay.hashCode ^

@@ -1,263 +1,263 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names
+import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+import 'package:image_picker/image_picker.dart';
 import 'package:pulmopal/models/user_model.dart';
-import 'package:pulmopal/pages/settings/account_page.dart';
-import 'package:pulmopal/pages/settings/controller/profile_controller.dart';
+import 'package:pulmopal/pages/blog/blogeWrite/repository/common_firebase_storage_repository.dart';
+import 'package:pulmopal/pages/blog/blogeWrite/utils.dart';
+import 'package:pulmopal/pages/settings/accountedits/controller/more_controller.dart';
+import 'package:pulmopal/widgets/app_bar.dart';
 
-class AccountPageEdit extends ConsumerWidget {
-  AccountPageEdit({super.key});
+class AccountPageEdit extends StatefulWidget {
+  const AccountPageEdit({super.key, required this.currentUser});
+  final UserModel currentUser;
+  @override
+  State<AccountPageEdit> createState() => _AccountPageEditState();
+}
 
-  bool sifre_gozukme = false;
+class _AccountPageEditState extends State<AccountPageEdit> {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _surnameController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _descriptionController = TextEditingController();
+  XFile? _image;
+
+  void selectImage() async {
+    _image = await pickImageFromGallery();
+    setState(() {});
+  }
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(),
-      home: SafeArea(
-        child: FutureBuilder<UserModel>(
-            future: ref.read(ProfileControllerProvider).getUser(),
-            builder: (context, Snapshot) {
-              if (Snapshot.hasData) {
-                final UserModel = Snapshot.data!;
-                return Scaffold(
-                    appBar: PreferredSize(
-                      preferredSize: const Size.fromHeight(100.0),
-                      child: AppBar(
-                        flexibleSpace: Container(
-                          height: 200,
-                          decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(20),
-                              bottomRight: Radius.circular(20),
-                            ),
-                            gradient: LinearGradient(
-                                colors: [Color(0xFF273C4F), Color(0xFF517DA0)]),
+  void initState() {
+    super.initState();
+    _nameController.text = widget.currentUser.name;
+    _surnameController.text = widget.currentUser.surname;
+    _emailController.text = widget.currentUser.email;
+    _usernameController.text = "@${widget.currentUser.username}";
+    _descriptionController.text = widget.currentUser.description ?? "";
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        appBar: appBar1(),
+        body: ListView(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: 400,
+                height: 50,
+                margin: const EdgeInsets.all(10),
+                child: const Center(
+                  child: Text(
+                    'Profile Settings',
+                    style: TextStyle(color: Colors.black, fontSize: 31),
+                  ),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: GestureDetector(
+                onTap: () => selectImage(),
+                child: CircleAvatar(
+                  radius: 70,
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundImage: _image != null
+                        ? FileImage(File(_image!.path)) as ImageProvider
+                        : CachedNetworkImageProvider(
+                            widget.currentUser.profilePhoto!,
                           ),
-                          child: Row(
-                            children: [
-                              IconButton(
-                                iconSize: 40,
-                                onPressed: () => Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) => AccountPage(),
-                                    )),
-                                icon: const Icon(Icons.arrow_back_rounded),
-                                color: Colors.black,
-                              ),
-                              const SizedBox(
-                                width: 105,
-                              ),
-                              Container(
-                                height: 80,
-                                width: 80,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(20),
-                                  image: const DecorationImage(
-                                      image: AssetImage('assets/logo.png'),
-                                      fit: BoxFit.cover),
-                                ),
-                              ),
-                              const SizedBox(
-                                width: 70,
-                              ),
-                              IconButton(
-                                iconSize: 40,
-                                onPressed: () {},
-                                icon: const Icon(
-                                  Icons.notifications,
-                                  color: Colors.black,
-                                ),
-                                //style: const ButtonStyle(iconColor: Colors.black),
-                              )
-                            ],
+                  ),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextFormField(
+                controller: _nameController,
+                validator: (value) {
+                  return null;
+                },
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextFormField(
+                validator: (value) {
+                  return null;
+                },
+                controller: _surnameController,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextFormField(
+                validator: (value) {
+                  return null;
+                },
+                controller: _usernameController,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextFormField(
+                validator: (value) {
+                  return null;
+                },
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  hintText: 'teambam@gmail.com',
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextFormField(
+                      // obscureText: sifre_gozukme,
+                      decoration: const InputDecoration(
+                        border: UnderlineInputBorder(
+                            borderSide: BorderSide(color: Colors.white)),
+                        hintText: '*********',
+                      ),
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.remove_red_eye,
+                        color: Colors.blueGrey),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.white)),
+                  hintText: '20',
+                ),
+              ),
+            ),
+            Container(
+              margin: const EdgeInsets.all(10),
+              height: 50,
+              decoration: BoxDecoration(
+                color: Colors.blue[100],
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  border: UnderlineInputBorder(),
+                  hintText: 'Asthma',
+                ),
+              ),
+            ),
+            Column(
+              children: [
+                Consumer(builder: (context, ref, child) {
+                  return Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: MaterialButton(
+                      onPressed: () async {
+                        widget.currentUser.name = _nameController.text;
+                        widget.currentUser.surname = _surnameController.text;
+                        widget.currentUser.email = _emailController.text;
+                        widget.currentUser.username = _usernameController.text;
+                        widget.currentUser.description =
+                            _descriptionController.text;
+
+                        if (_image != null) {
+                          widget.currentUser.profilePhoto = await ref
+                              .read(commonFSRepositoryProvider)
+                              .storeFileToFirebase(
+                                "profilePhotos/${widget.currentUser.uid}",
+                                File(_image!.path),
+                              );
+                        } else {
+                          widget.currentUser.profilePhoto =
+                              widget.currentUser.profilePhoto;
+                        }
+                        UserModel userModel = widget.currentUser;
+                        await ref
+                            .read(MoreControllerProvider)
+                            .updateProfile(userModel)
+                            .then(
+                              (value) => () => Navigator.pop(context),
+                            );
+                      },
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      color: Colors.blue,
+                      minWidth: double.infinity,
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 10,
+                        ),
+                        child: Text(
+                          "Edit Profile",
+                          style: TextStyle(
+                            color: Colors.black,
                           ),
                         ),
                       ),
                     ),
-                    body: ListView(
-                      children: [
-                        Align(
-                          alignment: Alignment.topCenter,
-                          child: Container(
-                            width: 400,
-                            height: 50,
-                            margin: const EdgeInsets.all(10),
-                            child: const Center(
-                              child: Text(
-                                'Profile Settings',
-                                style: TextStyle(
-                                    color: Colors.black, fontSize: 31),
-                              ),
-                            ),
-                          ),
-                        ),
-                        CircleAvatar(
-                          radius: 50,
-                          child: CircleAvatar(
-                            radius: 48,
-                            backgroundImage: CachedNetworkImageProvider(
-                                UserModel.profilePhoto!),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10.0),
-                          child: Text("@${UserModel.username}"),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const TextField(
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(),
-                              hintText: 'BAM',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const TextField(
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(),
-                              hintText: 'TEAM',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const TextField(
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(),
-                              hintText: 'teambam@gmail.com',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: TextFormField(
-                                  obscureText: sifre_gozukme,
-                                  decoration: const InputDecoration(
-                                    border: UnderlineInputBorder(
-                                        borderSide:
-                                            BorderSide(color: Colors.white)),
-                                    hintText: '*********',
-                                  ),
-                                ),
-                              ),
-                              IconButton(
-                                onPressed: () {
-                                  sifre_gozukme = !sifre_gozukme;
-                                },
-                                icon: const Icon(Icons.remove_red_eye,
-                                    color: Colors.blueGrey),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const TextField(
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(
-                                  borderSide: BorderSide(color: Colors.white)),
-                              hintText: '20',
-                            ),
-                          ),
-                        ),
-                        Container(
-                          margin: const EdgeInsets.all(10),
-                          height: 50,
-                          decoration: BoxDecoration(
-                            color: Colors.blue[100],
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          child: const TextField(
-                            decoration: InputDecoration(
-                              border: UnderlineInputBorder(),
-                              hintText: 'Asthma',
-                            ),
-                          ),
-                        ),
-                        Column(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                color: const Color.fromARGB(255, 104, 148, 183),
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              width: 300,
-                              height: 50,
-                              margin: const EdgeInsets.all(10),
-                              child: const Center(
-                                child: Text(
-                                  'Update Account',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              decoration: BoxDecoration(
-                                color: Colors.red,
-                                borderRadius: BorderRadius.circular(20),
-                              ),
-                              width: 175,
-                              height: 50,
-                              margin: const EdgeInsets.all(10),
-                              child: const Center(
-                                child: Text(
-                                  'Delete Account',
-                                  style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )
-                      ],
-                    ));
-              } else if (Snapshot.connectionState == ConnectionState.waiting) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              } else {
-                return const Center(
-                  child: Text("something went wrong"),
-                );
-              }
-            }),
-      ),
-    );
+                  );
+                })
+              ],
+            )
+          ],
+        ));
   }
 }

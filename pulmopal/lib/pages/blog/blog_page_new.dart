@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:pulmopal/models/article_model.dart';
 import 'package:pulmopal/models/user_model.dart';
@@ -37,96 +38,86 @@ class BlogPageNew extends ConsumerWidget {
                 itemBuilder: (BuildContext context, int index) {
                   final article = articles[index];
                   return Padding(
-                    padding: const EdgeInsets.all(1.0),
-                    child: AspectRatio(
-                      aspectRatio: 9 / 16,
-                      child: Container(
-                        margin: const EdgeInsets.all(8.0),
-                        height: 300,
-                        width: 380,
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Row(
-                                children: [
-                                  Container(
-                                    height: 40,
-                                    width: 40,
-                                    decoration: BoxDecoration(
-                                        image: DecorationImage(
-                                      image: CachedNetworkImageProvider(
-                                          article.authorImg),
-                                    )),
-                                  ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Column(
-                                    children: [
-                                      Text(
-                                        article.author,
-                                        style: const TextStyle(
-                                          fontSize: 14,
-                                          color: Color.fromARGB(255, 10, 9, 9),
-                                        ),
-                                      ),
-                                      Text(
-                                        DateFormat("dd.MM.y")
-                                            .format(article.createdAt),
-                                        style: const TextStyle(
-                                          fontSize: 13,
-                                          color: Colors.black,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
+                    padding: const EdgeInsets.all(10.0),
+                    child: Column(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 9 / 10,
+                          child: Container(
+                            height: 100,
+                            width: 250,
+                            decoration: BoxDecoration(
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider(
+                                    article.coverImg!),
+                                fit: BoxFit.cover,
                               ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  article.title,
-                                  style: const TextStyle(
-                                    fontSize: 25,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ),
-                              ),
-                              Align(
-                                alignment: Alignment.centerLeft,
-                                child: Text(
-                                  article.content,
-                                  style: const TextStyle(
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color.fromARGB(255, 0, 0, 0),
-                                  ),
-                                ),
-                              ),
-                              GestureDetector(
-                                onTap: () {},
-                                child: Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    height: 200,
-                                    width: 360,
-                                    decoration: BoxDecoration(
-                                      image: DecorationImage(
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Container(
+                                      height: 40,
+                                      width: 40,
+                                      decoration: BoxDecoration(
+                                          image: DecorationImage(
                                         image: CachedNetworkImageProvider(
-                                            article.coverImg!),
-                                        fit: BoxFit.cover,
-                                      ),
+                                            article.authorImg),
+                                      )),
                                     ),
-                                  ),
+                                    const SizedBox(
+                                      width: 5,
+                                    ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          article.author,
+                                          style: const TextStyle(
+                                            fontSize: 14,
+                                            color:
+                                                Color.fromARGB(255, 10, 9, 9),
+                                          ),
+                                        ),
+                                        Text(
+                                          DateFormat("dd.MM.y")
+                                              .format(article.createdAt),
+                                          style: const TextStyle(
+                                            fontSize: 13,
+                                            color: Colors.black,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            article.title,
+                            style: GoogleFonts.oswald(
+                                fontWeight: FontWeight.bold, fontSize: 25),
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            article.content,
+                            style: const TextStyle(
+                              fontSize: 12,
+                              color: Color.fromARGB(255, 0, 0, 0),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          height: 50,
+                        ),
+                      ],
                     ),
                   );
                 },

@@ -1,8 +1,9 @@
-// ignore_for_file: must_be_immutable, non_constant_identifier_names
+// ignore_for_file: must_be_immutable, non_constant_identifier_names, unnecessary_nullable_for_final_variable_declarations, unused_local_variable
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:get/get.dart';
 import 'package:pulmopal/models/user_model.dart';
 import 'package:pulmopal/pages/authentication/login_page.dart';
 import 'package:pulmopal/pages/settings/accountedits/account_page_edit.dart';
@@ -27,6 +28,7 @@ class AccountPage extends ConsumerWidget {
             builder: (context, Snapshot) {
               if (Snapshot.hasData) {
                 final UserModel = Snapshot.data!;
+
                 return Scaffold(
                     bottomNavigationBar: bottomBar(context),
                     appBar: appBar(),
@@ -81,7 +83,7 @@ class AccountPage extends ConsumerWidget {
                               onPressed: () => Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                    builder: (context) => AccountPageEdit(),
+                                    builder: (context) => const GoAccountEdit(),
                                   )),
                               style: ElevatedButton.styleFrom(
                                   backgroundColor:
@@ -127,5 +129,24 @@ class AccountPage extends ConsumerWidget {
             }),
       ),
     );
+  }
+}
+
+class GoAccountEdit extends ConsumerWidget {
+  const GoAccountEdit({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    return Scaffold(
+        body: FutureBuilder<UserModel>(
+            future: ref.read(MoreControllerProvider).getUser(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                final UserModel currentUser = snapshot.data!;
+                return AccountPageEdit(currentUser: currentUser);
+              } else {
+                return const CircularProgressIndicator();
+              }
+            }));
   }
 }
