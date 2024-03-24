@@ -3,7 +3,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:get/get.dart';
 import 'package:pulmopal/models/user_model.dart';
 import 'package:pulmopal/pages/authentication/login_page.dart';
 import 'package:pulmopal/pages/settings/accountedits/account_page_edit.dart';

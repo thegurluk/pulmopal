@@ -2,7 +2,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
-import 'package:pulmopal/config/router/app_router.dart';
 import 'package:pulmopal/firebase/firebase_options.dart';
 import 'package:pulmopal/pages/authentication/login_page.dart';
 import 'package:pulmopal/pages/blog/blogeWrite/repository/user_control_repository.dart';

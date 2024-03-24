@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:get/get.dart';
 import 'package:pulmopal/config/router/get_x.dart';
-import 'package:pulmopal/config/router/route_name.dart';
 import 'package:pulmopal/pages/authentication/register_page.dart';
 import 'package:pulmopal/pages/home/home_page.dart';
 import 'package:pulmopal/services/auth_services.dart';
